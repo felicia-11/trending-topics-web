@@ -11,6 +11,7 @@ import Banner from "@/app/components/Banner";
 import SideList from "@/app/components/SideList";
 import Comments from "@/app/components/Comments";
 import AdvertisementBox from "@/app/components/AdvertisementBox";
+import SkeletonLoad from "@/app/components/Skeleton";
 
 export default function Topic() {
     const { id: topicId } = useParams<{ id: string }>();
@@ -43,6 +44,7 @@ export default function Topic() {
     });
     const [popularTopics, setPopularTopics] = useState<any[]>([]);
     const [voteType, setVoteType] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     function updateVotes(type: string) {
         if (type === 'like' && voteType === 'like') {
@@ -92,6 +94,8 @@ export default function Topic() {
             setTopic(formattedData);
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -107,6 +111,8 @@ export default function Topic() {
             setPopularTopics(popularData);
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -120,26 +126,34 @@ export default function Topic() {
             <Banner
                 title={topic.name}
                 subtitle={`${topic.writer} - ${topic.createdAt}`}
+                isLoading={isLoading}
             />
             <section className="flex">
                 <article className="w-3/4 h-full px-10">
-                    <div className="w-3/5 h-full min-h-80 mx-auto relative">
-                        {topic.image !== '' && (
-                            <Image
-                                src={topic.image}
-                                alt="topic-image"
-                                className="rounded-md"
-                                sizes="100%"
-                                fill
-                            />
-                        )}
-                    </div>
+                    {isLoading || topic.image === '' ? (
+                        <div className="w-3/5 h-full min-h-80 mx-auto bg-gray-300"></div>
+                    ) : (
+                        <div className="w-3/5 h-full min-h-80 mx-auto relative">
+                            {topic.image !== '' && (
+                                <Image
+                                    src={topic.image}
+                                    alt="topic-image"
+                                    className="rounded-md"
+                                    sizes="100%"
+                                    fill
+                                />
+                            )}
+                        </div>
+                    )}
                     <p className="mt-1 mb-4 text-xs text-center text-gray-500">
                         {`Picture by ${topic.imageBy}`}
                     </p>
-                    <p>{topic.description}</p>
-                    <AdvertisementBox image={topic.adsImage} />
-                    <p>{topic.descriptionDetail}</p>
+                    {isLoading ? <SkeletonLoad count={5} /> : <p>{topic.description}</p>}
+                    <AdvertisementBox
+                        image={topic.adsImage}
+                        isLoading={isLoading}
+                    />
+                    {isLoading ? <SkeletonLoad count={5} /> : <p>{topic.descriptionDetail}</p>}
                     <div className="flex justify-end items-center gap-2 mt-10">
                         <p className="font-bold text-gray-500">Do you like this topic?</p>
                         <div className="flex gap-2">

@@ -1,6 +1,12 @@
 import Image from "next/image";
 
-export default function AdvertisementBox({ image }: { image: string }) {
+export default function AdvertisementBox({
+    image = '',
+    isLoading = false,
+}: {
+    image: string,
+    isLoading: boolean,
+}) {
     return (
         <a
             href={image} // in real case can be changed into advertisement's link
@@ -10,16 +16,20 @@ export default function AdvertisementBox({ image }: { image: string }) {
             <p className="text-center text-gray-400 text-xs uppercase my-1">
                 Advertisement
             </p>
-            <div className="w-full h-full min-h-40 mx-auto relative">
-                {image !== '' && (
-                    <Image
-                        src={image}
-                        alt="advertisement"
-                        sizes="100%"
-                        fill
-                    />
-                )}
-            </div>
+            {isLoading ? (
+                <div className="w-full h-full min-h-40 mx-auto bg-gray-300"></div>
+            ) : (
+                <div className="w-full h-full min-h-40 mx-auto relative">
+                    {image !== '' && (
+                        <Image
+                            src={image}
+                            alt="advertisement"
+                            sizes="100%"
+                            fill
+                        />
+                    )}
+                </div>
+            )}
         </a>
     );
 };
