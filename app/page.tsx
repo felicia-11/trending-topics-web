@@ -13,29 +13,46 @@ export default function Home() {
     image: string,
     createdAt: string,
   }>>([]);
+  const [meta, setMeta] = useState<{
+    page: string,
+    limit: string,
+  }>({
+    page: '1',
+    limit: '5',
+  });
+  const [isShowLoadMore, setIsShowLoadMore] = useState<boolean>(true);
 
-  async function fetchTrendingTopics() {
+  async function fetchTrendingTopics(isLoadMore: boolean = false) {
     try {
+      const page = isLoadMore ? (parseInt(meta.page, 10) + 1).toString() : meta.page;
       const url = new URL('https://66461f0f51e227f23aaddd51.mockapi.io/trending');
-      url.searchParams.append('page', '1');
-      url.searchParams.append('limit', '5');
+      url.searchParams.append('page', page);
+      url.searchParams.append('limit', meta.limit);
 
       const res = await fetch(url);
       const data = await res.json();
+      const newTopics = [...topics, ...formatTopicList(data)];
 
-      setTopics(formatTopicList(data));
+      setTopics(newTopics);
+      if (isLoadMore) setMeta({ ...meta, page });
+
+      /**
+       * mockAPI free access doesn't show total data (which are 25 data)
+       * Therefore, the condition is hardcoded as below
+       */
+      if (newTopics.length >= 25) setIsShowLoadMore(false);
     } catch (error) {
       console.log(error)
     }
   };
 
   useEffect(() => {
-    fetchTrendingTopics();
+    fetchTrendingTopics(false);
   }, []);
 
   return (
     <main>
-      <section className="flex items-center justify-center w-screen h-48 parallax-bg newspaper-bg my-8">
+      <section className="flex items-center justify-center w-full h-48 parallax-bg newspaper-bg my-8">
         <h1 className="text-center text-3xl text-white font-bold uppercase">
           Trending Topics
         </h1>
@@ -51,18 +68,27 @@ export default function Home() {
                 <Image
                   src={topic.image}
                   alt="preview-image"
-                  layout="fill"
-                  objectFit="contain"
-                  className="rounded-md"
+                  className="rounded-md object-contain"
+                  sizes="100%"
+                  fill
                 />
               </div>
               <div className="flex-1 px-4">
-                <h2 className="text-2xl font-bold capitalize mb-1">{topic.name}</h2>
-                <p>{topic.description}</p>
+                <h2 className="text-2xl font-bold capitalize">{topic.name}</h2>
+                <p className="text-xs text-gray-500">{topic.createdAt}</p>
+                <p className="mt-1">{topic.description}</p>
               </div>
             </Link>
           </article>
         ))}
+        {isShowLoadMore && (
+          <button
+            onClick={() => fetchTrendingTopics(true)}
+            className="bg-gray-400 p-3 text-white uppercase rounded-md"
+          >
+            Load More
+          </button>
+        )}
       </section>
     </main>
   );
