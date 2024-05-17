@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { formatTopicList } from "./helper";
+import Banner from "./components/Banner";
 
 export default function Home() {
   const [topics, setTopics] = useState<Array<{
@@ -52,11 +53,7 @@ export default function Home() {
 
   return (
     <main>
-      <section className="flex items-center justify-center w-full h-48 parallax-bg newspaper-bg my-8">
-        <h1 className="text-center text-3xl text-white font-bold uppercase">
-          Trending Topics
-        </h1>
-      </section>
+      <Banner title="Trending Topics" subtitle="" />
       <section className="flex flex-col gap-3 w-3/5 mx-auto mb-10">
         {topics.map(topic => (
           <article key={`topic-${topic.id}`}>
@@ -74,9 +71,15 @@ export default function Home() {
                 />
               </div>
               <div className="flex-1 px-4">
-                <h2 className="text-2xl font-bold capitalize">{topic.name}</h2>
-                <p className="text-xs text-gray-500">{topic.createdAt}</p>
-                <p className="mt-1">{topic.description}</p>
+                <h2 className="text-2xl font-bold capitalize">
+                  {topic.name}
+                </h2>
+                <p className="text-xs text-gray-500">
+                  {topic.createdAt}
+                </p>
+                <p className="mt-1">
+                  {topic.description}
+                </p>
               </div>
             </Link>
           </article>
