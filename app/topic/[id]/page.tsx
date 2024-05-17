@@ -133,14 +133,14 @@ export default function Topic() {
                 subtitle={`${topic.writer} - ${topic.createdAt}`}
                 isLoading={isLoading}
             />
-            <section className="flex">
-                <article className="w-3/4 h-full px-10">
+            <section className="flex flex-col lg:flex-row">
+                <article className="w-full h-full px-10 lg:w-3/4">
                     {isLoading || topic.image === '' ? (
-                        <div className="flex items-center justify-center w-3/5 h-full min-h-80 mx-auto bg-gray-300">
+                        <div className="flex items-center justify-center w-full h-full min-h-40 mx-auto bg-gray-300 lg:w-3/5 lg:min-h-80">
                             <MdBrokenImage size={30} color="white" />
                         </div>
                     ) : (
-                        <div className="w-3/5 h-full min-h-80 mx-auto relative">
+                        <div className="w-full h-full min-h-40 mx-auto relative lg:w-3/5 lg:min-h-80">
                             {topic.image !== '' && (
                                 <Image
                                     src={topic.image}

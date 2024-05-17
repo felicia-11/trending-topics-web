@@ -12,7 +12,7 @@ export default function Comments({ comments = [], onSubmit }: { comments: any[],
     };
 
     return (
-        <section className="flex flex-col gap-3 m-10 p-6 bg-gray-200 rounded-md">
+        <section className="flex flex-col gap-3 m-8 p-6 bg-gray-200 rounded-md lg:m-10">
             <div className="flex items-center gap-1">
                 <MdComment size={20} />
                 <p className="font-bold">Comment</p>
@@ -43,7 +43,7 @@ export default function Comments({ comments = [], onSubmit }: { comments: any[],
                             alt="user-picture"
                             width={100}
                             height={100}
-                            className="w-24 h-24 object-cover"
+                            className="w-20 h-20 object-cover lg:w-24 lg:h-24"
                         />
                         <div className="flex flex-col flex-1">
                             <p className="font-bold">{data.name}</p>

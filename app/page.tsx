@@ -69,7 +69,7 @@ export default function Home() {
         subtitle=""
         isLoading={false}
       />
-      <section className="flex flex-col gap-3 w-3/5 mx-auto mb-10">
+      <section className="flex flex-col gap-3 w-3/4 mx-auto mb-10 lg:w-3/5">
         {isInitialLoad && <SkeletonLoad count={5} />}
         {!isLoading && topics.length === 0 ? (
           <div className="flex gap-2 justify-center items-center text-xl">

@@ -11,7 +11,7 @@ export default function Banner({
     isLoading: boolean,
 }) {
     return (
-        <section className="flex flex-col items-center justify-center gap-2 w-full h-48 parallax-bg newspaper-bg my-8">
+        <section className="flex flex-col items-center justify-center gap-2 w-full h-48 parallax-bg newspaper-bg mb-8 mt-20 lg:mt-8">
             <div className="w-9/12">
                 {isLoading
                     ? <SkeletonLoad count={1} />

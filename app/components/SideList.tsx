@@ -12,7 +12,7 @@ export default function SideList({
     isLoading: boolean,
 }) {
     return (
-        <article className="w-1/4 px-4 mr-10 bg-gray-100">
+        <article className="w-full px-8 pb-4 mt-8 mr-10 bg-gray-100 lg:w-1/4 lg:px-4 lg:mt-0">
             <h3 className="text-center font-bold uppercase my-4">
                 {title}
             </h3>
