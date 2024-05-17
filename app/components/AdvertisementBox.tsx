@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MdBrokenImage } from 'react-icons/md';
 
 export default function AdvertisementBox({
     image = '',
@@ -16,8 +17,10 @@ export default function AdvertisementBox({
             <p className="text-center text-gray-400 text-xs uppercase my-1">
                 Advertisement
             </p>
-            {isLoading ? (
-                <div className="w-full h-full min-h-40 mx-auto bg-gray-300"></div>
+            {isLoading || image === '' ? (
+                <div className="flex items-center justify-center w-full h-full min-h-40 mx-auto bg-gray-300">
+                    <MdBrokenImage size={30} color="white" />
+                </div>
             ) : (
                 <div className="w-full h-full min-h-40 mx-auto relative">
                     {image !== '' && (

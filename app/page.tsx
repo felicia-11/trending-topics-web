@@ -1,11 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import { toast } from 'react-toastify';
+import { MdOutlineFolderOff } from 'react-icons/md';
 import { formatTopicList } from "./helper";
+
 import Banner from "./components/Banner";
 import SkeletonLoad from "./components/Skeleton";
+import TopicCard from "./components/TopicCard";
 
 export default function Home() {
   const [topics, setTopics] = useState<Array<{
@@ -47,8 +50,8 @@ export default function Home() {
        * Therefore, the condition is hardcoded as below
        */
       if (newTopics.length >= 25) setIsShowLoadMore(false);
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      toast(error.message);
     } finally {
       setIsLoading(false);
       if (isInitialLoad) setIsInitialLoad(false);
@@ -67,42 +70,20 @@ export default function Home() {
         isLoading={false}
       />
       <section className="flex flex-col gap-3 w-3/5 mx-auto mb-10">
-        {isInitialLoad
-          ? <SkeletonLoad count={5} />
-          : topics.map(topic => (
-            <article key={`topic-${topic.id}`}>
-              <Link
-                href={`/topic/${topic.id}`}
-                className="flex border-solid border-2 border-gray-400 rounded-md p-3"
-              >
-                <div className="w-40 h-32 relative">
-                  <Image
-                    src={topic.image}
-                    alt="preview-image"
-                    className="rounded-md object-contain"
-                    sizes="100%"
-                    fill
-                  />
-                </div>
-                <div className="flex-1 px-4">
-                  <h2 className="text-2xl font-bold capitalize">
-                    {topic.name}
-                  </h2>
-                  <p className="text-xs text-gray-500">
-                    {topic.createdAt}
-                  </p>
-                  <p className="mt-1">
-                    {topic.description}
-                  </p>
-                </div>
-              </Link>
-            </article>
-          ))
-        }
-        {isShowLoadMore && (
+        {isInitialLoad && <SkeletonLoad count={5} />}
+        {!isLoading && topics.length === 0 ? (
+          <div className="flex gap-2 justify-center items-center text-xl">
+            <MdOutlineFolderOff size={28} />
+            Data Not Found
+          </div>
+        ) : topics.map(topic => (
+          <TopicCard key={`topic-${topic.id}`} data={topic} />
+        ))}
+        {(!isLoading && topics.length === 0) || !isShowLoadMore ? null : (
           <button
             onClick={() => fetchTrendingTopics(true)}
             className="bg-gray-400 p-3 text-white uppercase rounded-md"
+            disabled={isLoading}
           >
             {isLoading ?
               (

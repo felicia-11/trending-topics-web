@@ -26,7 +26,10 @@ export default function Comments({ comments = [], onSubmit }: { comments: any[],
             />
             <button
                 onClick={submit}
-                className="flex items-center justify-center gap-2 w-24 ml-auto p-1 bg-gray-800 text-white rounded-sm"
+                className={`flex items-center justify-center gap-2 w-24 ml-auto p-1 text-white rounded-sm
+                    ${comment === '' ? "bg-gray-400" : "bg-gray-800"}
+                `}
+                disabled={!comment}
             >
                 <MdOutlineSend size={20} />
                 Send

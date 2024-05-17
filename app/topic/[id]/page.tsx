@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import moment from "moment";
-import { MdOutlineThumbUp, MdOutlineThumbDown } from 'react-icons/md';
+import {
+    MdOutlineThumbUp,
+    MdOutlineThumbDown,
+    MdBrokenImage,
+} from 'react-icons/md';
 import { formatTopicDetail } from "../helper";
 
 import Banner from "@/app/components/Banner";
@@ -92,8 +97,8 @@ export default function Topic() {
             const formattedData = formatTopicDetail(data);
 
             setTopic(formattedData);
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            toast(error.message);
         } finally {
             setIsLoading(false);
         }
@@ -109,8 +114,8 @@ export default function Topic() {
             const popularData = await popularRes.json();
 
             setPopularTopics(popularData);
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            toast(error.message);
         } finally {
             setIsLoading(false);
         }
@@ -131,7 +136,9 @@ export default function Topic() {
             <section className="flex">
                 <article className="w-3/4 h-full px-10">
                     {isLoading || topic.image === '' ? (
-                        <div className="w-3/5 h-full min-h-80 mx-auto bg-gray-300"></div>
+                        <div className="flex items-center justify-center w-3/5 h-full min-h-80 mx-auto bg-gray-300">
+                            <MdBrokenImage size={30} color="white" />
+                        </div>
                     ) : (
                         <div className="w-3/5 h-full min-h-80 mx-auto relative">
                             {topic.image !== '' && (
@@ -145,9 +152,11 @@ export default function Topic() {
                             )}
                         </div>
                     )}
-                    <p className="mt-1 mb-4 text-xs text-center text-gray-500">
-                        {`Picture by ${topic.imageBy}`}
-                    </p>
+                    {!isLoading && topic.image !== '' && (
+                        <p className="mt-1 mb-4 text-xs text-center text-gray-500">
+                            {`Picture by ${topic.imageBy}`}
+                        </p>
+                    )}
                     {isLoading ? <SkeletonLoad count={5} /> : <p>{topic.description}</p>}
                     <AdvertisementBox
                         image={topic.adsImage}
@@ -178,9 +187,16 @@ export default function Topic() {
                         </div>
                     </div>
                 </article>
-                <SideList title="Popular Topics" data={popularTopics} />
+                <SideList
+                    title="Popular Topics"
+                    data={popularTopics}
+                    isLoading={isLoading}
+                />
             </section>
-            <Comments comments={topic.comments} onSubmit={submitComment} />
+            <Comments
+                comments={topic.comments}
+                onSubmit={submitComment}
+            />
         </main>
     );
 };
