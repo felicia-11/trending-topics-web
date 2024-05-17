@@ -82,7 +82,7 @@ export default function Home() {
         {(!isLoading && topics.length === 0) || !isShowLoadMore ? null : (
           <button
             onClick={() => fetchTrendingTopics(true)}
-            className="bg-gray-400 p-3 text-white uppercase rounded-md"
+            className="bg-gray-400 p-3 text-white uppercase rounded-md hover:bg-gray-500"
             disabled={isLoading}
           >
             {isLoading ?

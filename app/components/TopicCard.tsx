@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function TopicCard({ data }: { data: any }) {
     return (
-        <article>
+        <article className="hover:scale-105">
           <Link
             href={`/topic/${data.id}`}
             className="flex border-solid border-2 border-gray-400 rounded-md p-3"
