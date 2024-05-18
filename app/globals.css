@@ -28,6 +28,10 @@
   }
 }
 
+/* Component's Styles */
+/* If the project has many pages, component's style will be created separately on the related folder */
+
+/* Banner Styles */
 .parallax-bg {
   background-attachment: fixed;
   background-position: center;
@@ -37,4 +41,14 @@
 
 .newspaper-bg {
   background-image: url('/newspaper-bg.jpg');
+}
+
+/* Floating Action Button Styles */
+.scroll-to-top {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
 }

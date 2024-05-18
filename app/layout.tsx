@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTopFAB from "./components/ScrollToTopFAB";
 import Header from "./components/Header";
 import "./globals.css";
 
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ToastContainer autoClose={3000} />
+        <ScrollToTopFAB />
         <Header />
         {children}
       </body>
