@@ -8,7 +8,7 @@ Trending Topics website is created using NextJS, TypeScript, and Tailwind CSS. O
 ## Clone Project and Run Locally
 1. Run `git clone https://github.com/felicia-11/trending-topics-web.git`
 2. Run `npm install`
-3. Run `npm start`
+3. Run `npm run dev`
 4. Visit `http://localhost:3000` to view application's result
 
 ## Regarding Image Resources
